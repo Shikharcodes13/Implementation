@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  windmill:
+    image: ghcr.io/windmill-labs/windmill:latest
+    container_name: windmill-csv-system
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://windmill:windmill@db:5432/windmill
+      - WM_WORKSPACE=local
+      - WM_TOKEN=local
+      - WM_HTTPS_ENABLED=false
+      - WM_DISABLE_OAUTH=true
+    depends_on:
+      - db
+    volumes:
+      - windmill_data:/tmp/windmill_data
+
+  db:
+    image: postgres:15
+    container_name: windmill-db
+    environment:
+      - POSTGRES_DB=windmill
+      - POSTGRES_USER=windmill
+      - POSTGRES_PASSWORD=windmill
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  windmill_data:
+  postgres_data:
+
+
+

@@ -1,0 +1,54 @@
+{
+  "value": {
+    "modules": [
+      {
+        "id": "collect_errors",
+        "value": {
+          "type": "script",
+          "path": "scripts/error_collector",
+          "input_transforms": {
+            "csv_errors": "result.csv_errors",
+            "transformation_errors": "result.transformation_errors",
+            "api_errors": "result.api_errors"
+          }
+        }
+      },
+      {
+        "id": "error_handler",
+        "value": {
+          "type": "script",
+          "path": "scripts/error_handler",
+          "input_transforms": {
+            "errors": "collect_errors.all_errors",
+            "original_data": "result.original_data"
+          }
+        }
+      },
+      {
+        "id": "error_notifications",
+        "value": {
+          "type": "script",
+          "path": "scripts/error_notifier",
+          "input_transforms": {
+            "error_report": "error_handler.error_report",
+            "notification_config": "result.notification_config"
+          }
+        }
+      },
+      {
+        "id": "error_dashboard",
+        "value": {
+          "type": "script",
+          "path": "scripts/error_dashboard_generator",
+          "input_transforms": {
+            "error_report": "error_handler.error_report",
+            "dashboard_config": "result.dashboard_config"
+          }
+        }
+      }
+    ]
+  }
+}
+
+
+

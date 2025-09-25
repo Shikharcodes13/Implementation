@@ -1,0 +1,72 @@
+{
+  "value": {
+    "modules": [
+      {
+        "id": "csv_parser",
+        "value": {
+          "type": "script",
+          "path": "scripts/csv_parser",
+          "input_transforms": {
+            "file_content": "result.file_content",
+            "delimiter": "result.delimiter",
+            "required_fields": "result.required_fields"
+          }
+        }
+      },
+      {
+        "id": "data_transformer",
+        "value": {
+          "type": "script",
+          "path": "scripts/data_transformer",
+          "input_transforms": {
+            "data": "csv_parser.data",
+            "transformation_rules": "result.transformation_rules"
+          }
+        }
+      },
+      {
+        "id": "customer_api_client",
+        "value": {
+          "type": "script",
+          "path": "scripts/customer_api_client",
+          "input_transforms": {
+            "customers": "data_transformer.transformed_data",
+            "api_base_url": "result.api_base_url",
+            "api_key": "result.api_key",
+            "batch_size": "result.batch_size"
+          }
+        }
+      },
+      {
+        "id": "error_handler",
+        "value": {
+          "type": "script",
+          "path": "scripts/error_handler",
+          "input_transforms": {
+            "errors": "result.all_errors",
+            "original_data": "csv_parser.data"
+          }
+        }
+      },
+      {
+        "id": "report_generator",
+        "value": {
+          "type": "script",
+          "path": "scripts/report_generator",
+          "input_transforms": {
+            "processing_summary": "result.processing_summary",
+            "data_quality": "result.data_quality",
+            "api_results": "customer_api_client",
+            "errors": "error_handler",
+            "transformed_data": "data_transformer.transformed_data",
+            "processing_time": "result.processing_time"
+          }
+        }
+      }
+    ],
+    "failure_module": "error_handler"
+  }
+}
+
+
+

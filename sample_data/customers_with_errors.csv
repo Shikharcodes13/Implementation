@@ -1,0 +1,10 @@
+company_name,contact_email,contact_first_name,contact_last_name,phone_number,address,city,country,postal_code,tax_id,company_size
+Acme Corp,john.doe@acme.com,John,Doe,+1-555-0100,123 Business St,New York,USA,10001,TAX-123456,50-100
+Beta Inc,invalid-email,Jane,Smith,555.0200,456 Commerce Ave,San Francisco,USA,94105,TAX-789012,100-500
+Gamma LLC,info@gamma.com,Bob,,555-0300,789 Industrial Blvd,Chicago,USA,60601,TAX-345678,10-50
+,contact@delta.org,Alice,Brown,555.0400,321 Corporate Dr,Boston,USA,02101,TAX-901234,500+
+Epsilon Ltd,sales@epsilon.net,Charlie,Wilson,123,654 Enterprise Way,Seattle,USA,98101,TAX-567890,25-50
+Zeta Inc,support@zeta.io,Diana,Davis,555.0600,987 Innovation St,Austin,USA,73301,TAX-234567,100-250
+
+
+

@@ -1,0 +1,54 @@
+{
+  "field_mappings": {
+    "company_name": "name",
+    "contact_email": "email",
+    "contact_first_name": "firstName",
+    "contact_last_name": "lastName",
+    "phone_number": "phone",
+    "address": "address",
+    "city": "city",
+    "country": "country",
+    "postal_code": "postalCode",
+    "tax_id": "taxId",
+    "company_size": "companySize"
+  },
+  "validations": {
+    "email": "email_format",
+    "phone": "phone_format",
+    "name": "required",
+    "firstName": "required",
+    "lastName": "required"
+  },
+  "transformations": {
+    "name": "title_case",
+    "firstName": "title_case",
+    "lastName": "title_case",
+    "phone": "normalize_phone",
+    "email": "lowercase",
+    "address": "clean_string",
+    "city": "title_case"
+  },
+  "required_fields": [
+    "company_name",
+    "contact_email",
+    "contact_first_name",
+    "contact_last_name"
+  ],
+  "api_config": {
+    "base_url": "https://jsonplaceholder.typicode.com",
+    "endpoint": "/users",
+    "timeout": 30,
+    "batch_size": 10,
+    "retry_attempts": 3
+  },
+  "processing_config": {
+    "max_file_size_mb": 10,
+    "supported_encodings": ["utf-8", "utf-16", "latin-1", "cp1252"],
+    "supported_delimiters": [",", ";", "\t", "|"],
+    "enable_parallel_processing": true,
+    "max_workers": 4
+  }
+}
+
+
+

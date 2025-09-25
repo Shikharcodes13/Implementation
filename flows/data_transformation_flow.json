@@ -1,0 +1,51 @@
+{
+  "value": {
+    "modules": [
+      {
+        "id": "load_transformation_rules",
+        "value": {
+          "type": "script",
+          "path": "scripts/load_config",
+          "input_transforms": {
+            "config_file": "config/transformation_rules.json"
+          }
+        }
+      },
+      {
+        "id": "validate_config",
+        "value": {
+          "type": "script",
+          "path": "scripts/config_validator",
+          "input_transforms": {
+            "config": "load_transformation_rules.config"
+          }
+        }
+      },
+      {
+        "id": "data_transformer",
+        "value": {
+          "type": "script",
+          "path": "scripts/data_transformer",
+          "input_transforms": {
+            "data": "result.input_data",
+            "transformation_rules": "load_transformation_rules.config"
+          }
+        }
+      },
+      {
+        "id": "quality_checker",
+        "value": {
+          "type": "script",
+          "path": "scripts/data_quality_checker",
+          "input_transforms": {
+            "transformed_data": "data_transformer.transformed_data",
+            "quality_rules": "load_transformation_rules.config.quality_rules"
+          }
+        }
+      }
+    ]
+  }
+}
+
+
+

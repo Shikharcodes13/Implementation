@@ -1,0 +1,47 @@
+{
+  "name": "csv-upload-system",
+  "version": "1.0.0",
+  "description": "CSV Upload System with Windmill - Customizable data transformation pipeline",
+  "main": "index.js",
+  "scripts": {
+    "start": "windmill start",
+    "dev": "windmill start --dev",
+    "build": "windmill build",
+    "test": "pytest",
+    "test:coverage": "pytest --cov=scripts --cov-report=html",
+    "lint": "flake8 scripts/",
+    "format": "black scripts/",
+    "type-check": "mypy scripts/"
+  },
+  "keywords": [
+    "csv",
+    "data-processing",
+    "windmill",
+    "transformation",
+    "api-integration",
+    "workflow-automation"
+  ],
+  "author": "CSV Upload System Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@windmill-labs/windmill": "^1.0.0"
+  },
+  "dependencies": {
+    "windmill": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "python": ">=3.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/csv-upload-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/csv-upload-system/issues"
+  },
+  "homepage": "https://github.com/your-org/csv-upload-system#readme"
+}
+
+
+

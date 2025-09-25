@@ -1,0 +1,45 @@
+{
+  "mock_api": {
+    "base_url": "https://jsonplaceholder.typicode.com",
+    "endpoints": {
+      "customers": "/users",
+      "health": "/posts/1"
+    },
+    "authentication": {
+      "type": "none",
+      "api_key": null,
+      "bearer_token": null
+    },
+    "settings": {
+      "timeout": 30,
+      "batch_size": 10,
+      "retry_attempts": 3,
+      "delay_between_batches": 0.1
+    }
+  },
+  "alternative_apis": {
+    "reqres": {
+      "base_url": "https://reqres.in/api",
+      "endpoints": {
+        "customers": "/users",
+        "health": "/users/1"
+      },
+      "authentication": {
+        "type": "none"
+      }
+    },
+    "httpbin": {
+      "base_url": "https://httpbin.org",
+      "endpoints": {
+        "customers": "/post",
+        "health": "/status/200"
+      },
+      "authentication": {
+        "type": "none"
+      }
+    }
+  }
+}
+
+
+
