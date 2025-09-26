@@ -31,7 +31,7 @@
   },
   "phone_rules": {
     "default_country_code": "+1",
-    "default_area_code": "212"
+    "default_area_code": "322"
   },
   "required_fields": [
     "company_name",
