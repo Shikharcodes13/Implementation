@@ -56,9 +56,19 @@ class CustomerAPIClient:
             if response.status_code in [200, 201]:
                 return True, response.json()
             else:
+                # Try to parse JSON error body for clearer diagnostics
+                parsed_error = None
+                try:
+                    parsed_error = response.json()
+                except Exception:
+                    parsed_error = None
+
                 return False, {
                     'status_code': response.status_code,
-                    'message': response.text,
+                    'endpoint': url,
+                    'message': parsed_error.get('message') if isinstance(parsed_error, dict) and 'message' in parsed_error else response.text,
+                    'error': parsed_error.get('error') if isinstance(parsed_error, dict) else 'http_error',
+                    'response_body': parsed_error if isinstance(parsed_error, dict) else None,
                     'customer_data': customer_data
                 }
                 

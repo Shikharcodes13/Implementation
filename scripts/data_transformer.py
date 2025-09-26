@@ -127,7 +127,9 @@ class DataTransformer:
         for i, row in enumerate(data, start=1):
             try:
                 customer_obj, errors = self.transform_row(row, i)
-                transformed_data.append(customer_obj)
+                # Only include rows with no validation/transformation errors
+                if not errors:
+                    transformed_data.append(customer_obj)
                 all_errors.extend(errors)
             except Exception as e:
                 all_errors.append({
