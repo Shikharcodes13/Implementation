@@ -81,6 +81,44 @@ csv-upload-system/
 
 ## 🔧 Configuration
 
+### MockAPI Configuration
+
+The system includes comprehensive MockAPI support for testing and development:
+
+#### Default MockAPI Services
+- **JSONPlaceholder**: `https://jsonplaceholder.typicode.com/users`
+- **Reqres.in**: `https://reqres.in/api/users`
+- **HTTPBin**: `https://httpbin.org/post`
+
+#### MockAPI Configuration
+```json
+{
+  "mock_api": {
+    "base_url": "https://jsonplaceholder.typicode.com",
+    "endpoints": {
+      "customers": "/users",
+      "health": "/posts/1"
+    },
+    "authentication": {
+      "type": "none"
+    },
+    "settings": {
+      "timeout": 30,
+      "batch_size": 10,
+      "retry_attempts": 3
+    }
+  }
+}
+```
+
+#### Built-in Mock API
+The system includes a complete mock API script (`scripts/mock_customer_api.py`) that:
+- ✅ Simulates customer creation with unique IDs
+- ✅ Validates required fields (name, email)
+- ✅ Simulates random API failures (5% rate)
+- ✅ Returns properly formatted responses
+- ✅ Includes health check endpoint
+
 ### Transformation Rules
 
 The system uses a JSON configuration file to define transformation rules. This allows easy modification without code changes:

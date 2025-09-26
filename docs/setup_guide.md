@@ -72,15 +72,61 @@ The Windmill UI will be available at http://localhost:8000
    - Configure input transforms
    - Connect modules with arrows
 
-## Step 6: Configure API
+## Step 6: Configure MockAPI
 
-### Option 1: Use Mock API Service
-Use a service like JSONPlaceholder or create a simple mock endpoint.
+### Option 1: Use External Mock API Services
 
-### Option 2: Create Mock API in Windmill
-Create a simple REST API script in Windmill that accepts customer data.
+#### JSONPlaceholder (Recommended)
+- **Base URL**: `https://jsonplaceholder.typicode.com`
+- **Customer Endpoint**: `/users`
+- **Health Check**: `/posts/1`
+- **Authentication**: None required
 
-#### Mock API Script Example:
+#### Reqres.in (Alternative)
+- **Base URL**: `https://reqres.in/api`
+- **Customer Endpoint**: `/users`
+- **Health Check**: `/users/1`
+- **Authentication**: None required
+
+#### HTTPBin (Testing)
+- **Base URL**: `https://httpbin.org`
+- **Customer Endpoint**: `/post`
+- **Health Check**: `/status/200`
+- **Authentication**: None required
+
+### Option 2: Use Built-in Mock API Script
+
+The system includes a complete mock API script (`scripts/mock_customer_api.py`) with:
+
+#### Features:
+- ✅ **Customer Creation**: Generates unique customer IDs
+- ✅ **Field Validation**: Validates required fields (name, email)
+- ✅ **Error Simulation**: 5% random failure rate for testing
+- ✅ **Response Formatting**: Proper API response structure
+- ✅ **Health Check**: Built-in health monitoring
+
+#### Configuration:
+```json
+{
+  "mock_api": {
+    "base_url": "https://jsonplaceholder.typicode.com",
+    "endpoints": {
+      "customers": "/users",
+      "health": "/posts/1"
+    },
+    "authentication": {
+      "type": "none"
+    },
+    "settings": {
+      "timeout": 30,
+      "batch_size": 10,
+      "retry_attempts": 3
+    }
+  }
+}
+```
+
+#### Mock API Script Usage:
 ```python
 def main(customer_data: dict) -> dict:
     """Mock API endpoint for customer creation"""

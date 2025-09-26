@@ -52,14 +52,39 @@ Acme Corp,john.doe@acme.com,John,Doe,+1-555-0100,123 Business St,New York,USA,10
 
 ## 🔧 Configuration Options
 
-### API Configuration
+### MockAPI Configuration
+
+#### Default MockAPI Endpoints
+- **Primary**: `https://jsonplaceholder.typicode.com/users`
+- **Alternative**: `https://reqres.in/api/users`
+- **Testing**: `https://httpbin.org/post`
+
+#### API Configuration
 ```json
 {
-  "api_base_url": "https://jsonplaceholder.typicode.com",
-  "api_key": "your-api-key",
-  "batch_size": 10
+  "mock_api": {
+    "base_url": "https://jsonplaceholder.typicode.com",
+    "endpoints": {
+      "customers": "/users",
+      "health": "/posts/1"
+    },
+    "authentication": {
+      "type": "none"
+    },
+    "settings": {
+      "timeout": 30,
+      "batch_size": 10,
+      "retry_attempts": 3
+    }
+  }
 }
 ```
+
+#### Built-in Mock API Testing
+The system includes `scripts/mock_customer_api.py` for local testing:
+- **Endpoint**: Use as Windmill script
+- **Features**: Validation, error simulation, unique ID generation
+- **Testing**: 5% random failure rate for realistic testing
 
 ### Transformation Rules
 ```json
