@@ -35,8 +35,8 @@
     "contact_last_name"
   ],
   "api_config": {
-    "base_url": "https://jsonplaceholder.typicode.com",
-    "endpoint": "/users",
+    "base_url": "https://68d39755214be68f8c6666a0.mockapi.io",
+    "endpoint": "/customers",
     "timeout": 30,
     "batch_size": 10,
     "retry_attempts": 3
