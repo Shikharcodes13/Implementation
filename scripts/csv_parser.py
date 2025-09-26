@@ -9,6 +9,25 @@ logger = logging.getLogger(__name__)
 class CSVParser:
     def __init__(self):
         self.supported_encodings = ['utf-8', 'utf-16', 'latin-1', 'cp1252']
+        self.supported_delimiters = [',', ';', '\t', '|']
+
+    def _resolve_delimiter(self, provided_delimiter: str, text_content: str) -> str:
+        """Resolve delimiter to a safe 1-character string.
+        If invalid or not provided, attempt to sniff; fallback to ','."""
+        try:
+            if isinstance(provided_delimiter, str) and len(provided_delimiter) == 1:
+                return provided_delimiter
+        except Exception:
+            pass
+        # Try to sniff from sample of the content
+        sample = text_content[:8192]
+        try:
+            dialect = csv.Sniffer().sniff(sample, delimiters=''.join(self.supported_delimiters))
+            if dialect.delimiter in self.supported_delimiters:
+                return dialect.delimiter
+        except Exception:
+            pass
+        return ','
     
     def detect_encoding(self, file_content: bytes) -> str:
         """Detect file encoding"""
@@ -49,8 +68,16 @@ class CSVParser:
                     'message': f'Encoding issues detected, some characters may be replaced'
                 })
             
+            # Resolve delimiter safely
+            safe_delimiter = self._resolve_delimiter(delimiter, text_content)
+            if not isinstance(delimiter, str) or len(delimiter) != 1 or delimiter != safe_delimiter:
+                errors.append({
+                    'type': 'delimiter_warning',
+                    'message': f"Provided delimiter was invalid; using '{safe_delimiter}' instead"
+                })
+
             # Parse CSV
-            csv_reader = csv.DictReader(io.StringIO(text_content), delimiter=delimiter)
+            csv_reader = csv.DictReader(io.StringIO(text_content), delimiter=safe_delimiter)
             headers = csv_reader.fieldnames or []
             
             for row_num, row in enumerate(csv_reader, start=2):  # Start at 2 (header is 1)

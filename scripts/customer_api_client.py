@@ -113,11 +113,29 @@ class CustomerAPIClient:
             'total_failed': 0
         }
         
+        # Helper to detect non-customer error-like objects accidentally passed in
+        def _looks_like_error_object(obj: Dict[str, Any]) -> bool:
+            return isinstance(obj, dict) and obj.get('type') == 'validation_error' and 'row_number' in obj
+
         # Process in batches
         for i in range(0, len(customers), batch_size):
             batch = customers[i:i + batch_size]
             
             for customer in batch:
+                # Guard: skip error objects and mark as failed input
+                if _looks_like_error_object(customer):
+                    results['failed'].append({
+                        'customer_data': customer,
+                        'error_details': {
+                            'error': 'invalid_input',
+                            'message': 'Received error object instead of customer data. Ensure customers = data_transformer.transformed_data',
+                            'status_code': None
+                        }
+                    })
+                    results['total_failed'] += 1
+                    results['total_processed'] += 1
+                    continue
+
                 success, response_data = self.create_customer(customer)
                 
                 if success:
