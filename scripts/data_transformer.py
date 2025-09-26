@@ -12,6 +12,8 @@ class DataTransformer:
         self.field_mappings = self.transformation_rules.get('field_mappings', {})
         self.validations = self.transformation_rules.get('validations', {})
         self.transformations = self.transformation_rules.get('transformations', {})
+        # Optional phone normalization rules
+        self.phone_rules = self.transformation_rules.get('phone_rules', {})
     
     def validate_email(self, email: str) -> bool:
         if not email:
@@ -29,10 +31,21 @@ class DataTransformer:
         if not phone:
             return phone
         digits_only = re.sub(r'\D', '', phone)
+        # Handle cases like "+1-555-0100" (8 digits with leading country digit but missing area code)
+        if len(digits_only) == 8 and digits_only[0] == '1':
+            digits_only = digits_only[1:]
+        # Handle local 7-digit numbers by applying default area code if provided
+        if len(digits_only) == 7 and self.phone_rules.get('default_area_code'):
+            area = re.sub(r'\D', '', str(self.phone_rules.get('default_area_code')))
+            if len(area) == 3:
+                digits_only = area + digits_only
+        # Normalize US 10/11-digit formats
         if len(digits_only) == 10:
-            return f"+1-{digits_only[:3]}-{digits_only[3:6]}-{digits_only[6:]}"
+            country = str(self.phone_rules.get('default_country_code', '+1'))
+            return f"{country}-{digits_only[:3]}-{digits_only[3:6]}-{digits_only[6:]}"
         elif len(digits_only) == 11 and digits_only[0] == '1':
-            return f"+1-{digits_only[1:4]}-{digits_only[4:7]}-{digits_only[7:]}"
+            country = str(self.phone_rules.get('default_country_code', '+1'))
+            return f"{country}-{digits_only[1:4]}-{digits_only[4:7]}-{digits_only[7:]}"
         return phone
     
     def title_case(self, text: str) -> str:

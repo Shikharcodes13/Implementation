@@ -26,7 +26,12 @@
     "phone": "normalize_phone",
     "email": "lowercase",
     "address": "clean_string",
-    "city": "title_case"
+    "city": "title_case",
+    "country": "uppercase"
+  },
+  "phone_rules": {
+    "default_country_code": "+1",
+    "default_area_code": "212"
   },
   "required_fields": [
     "company_name",
